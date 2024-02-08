@@ -3,6 +3,7 @@ package com.comst.inflearn_ui_basic_study
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,9 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.comst.inflearn_ui_basic_study.ui.theme.Inflearn_ui_basic_studyTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,81 +39,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MyTextField3()
+                MyImageTest2()
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField1() {
-
-    var textState by remember { mutableStateOf("Hello") }
-
-    TextField(
-        value = textState,
-        onValueChange = {
-            textState = it
-        },
-        label = {
-            Text(text = "입력하는 공간")
-        }
+fun MyImageTest1(){
+    Image(
+        painter = painterResource(id = R.drawable.insider),
+        contentDescription = "shop"
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField2() {
+fun MyImageTest2(){
 
-    var textState by remember { mutableStateOf("Hello") }
-
-    OutlinedTextField(
-        value = textState,
-        onValueChange = {
-            textState = it
-        },
-        label = {
-            Text(text = "입력하는 공간")
-        }
+    AsyncImage(
+        model = "https://avatars.githubusercontent.com/u/69802523?v=4&size=150",
+        contentDescription = "깃허브 프로필",
+        modifier = Modifier.fillMaxSize()
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyTextField3() {
-
-    var textState by remember { mutableStateOf("") }
-
-    var enteredText by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        TextField(
-            value = textState,
-            onValueChange = {
-                textState = it
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Button(
-            onClick = {
-                enteredText = textState
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "입력하기")
-        }
-
-        Text(
-            text = "결과값 텍스트 : ${enteredText}"
-        )
-    }
 }
 
 
@@ -118,6 +68,6 @@ fun MyTextField3() {
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyTextField3()
+        MyImageTest2()
     }
 }
