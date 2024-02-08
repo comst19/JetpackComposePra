@@ -3,20 +3,26 @@ package com.comst.inflearn_ui_basic_study
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,52 +36,79 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                ColumnTest2()
+                MyTextField3()
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColumnTest1(){
-    Text(
-        text = "안녕하세요1",
-        fontSize = 30.sp
-    )
-    Text(
-        text = "반갑습니다1",
-        fontSize = 30.sp,
-        modifier = Modifier.padding(top = 50.dp)
-    )
-    Text(
-        text = "반갑습니다2",
-        fontSize = 30.sp,
-        modifier = Modifier.padding(top = 100.dp)
+fun MyTextField1() {
+
+    var textState by remember { mutableStateOf("Hello") }
+
+    TextField(
+        value = textState,
+        onValueChange = {
+            textState = it
+        },
+        label = {
+            Text(text = "입력하는 공간")
+        }
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColumnTest2(){
+fun MyTextField2() {
+
+    var textState by remember { mutableStateOf("Hello") }
+
+    OutlinedTextField(
+        value = textState,
+        onValueChange = {
+            textState = it
+        },
+        label = {
+            Text(text = "입력하는 공간")
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTextField3() {
+
+    var textState by remember { mutableStateOf("") }
+
+    var enteredText by remember { mutableStateOf("") }
+
     Column(
-        modifier = Modifier.padding(30.dp)
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "안녕하세요1",
-            fontSize = 30.sp
+
+        TextField(
+            value = textState,
+            onValueChange = {
+                textState = it
+            },
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.padding(30.dp))
-        Divider(
-            thickness = 4.dp,
-            color = Color.Blue
-        )
-        Spacer(modifier = Modifier.padding(30.dp))
+
+        Button(
+            onClick = {
+                enteredText = textState
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "입력하기")
+        }
+
         Text(
-            text = "안녕하세요2",
-            fontSize = 30.sp
-        )
-        Text(
-            text = "안녕하세요3",
-            fontSize = 30.sp
+            text = "결과값 텍스트 : ${enteredText}"
         )
     }
 }
@@ -85,6 +118,6 @@ fun ColumnTest2(){
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        ColumnTest2()
+        MyTextField3()
     }
 }
