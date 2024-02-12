@@ -1,6 +1,7 @@
 package com.comst.inflearn_ui_basic_study
 
 import android.os.Bundle
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.AsyncImage
 import com.comst.inflearn_ui_basic_study.ui.theme.Inflearn_ui_basic_studyTheme
 
@@ -52,10 +54,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                Column() {
-                    CardTest("1")
-                    CardTest("2")
-                }
+                MyWebView("https://www.naver.com/")
             }
         }
     }
@@ -63,40 +62,18 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun CardTest(txt : String){
-
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .height(100.dp)
-        .padding(10.dp),
-        shape = RoundedCornerShape(50.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
-        ),
-        border = BorderStroke(1.dp, Color.Black)
-    ){
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray),
-            contentAlignment = Alignment.Center
-        ){
-
-            Text(
-                text = txt,
-                fontSize = 30.sp
-            )
+fun MyWebView(url : String){
+    AndroidView(factory = {
+        WebView(it).apply {
+            loadUrl(url)
         }
-    }
+    })
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        Column() {
-            CardTest("1")
-            CardTest("2")
-        }
+        MyWebView("https://www.naver.com/")
     }
 }
