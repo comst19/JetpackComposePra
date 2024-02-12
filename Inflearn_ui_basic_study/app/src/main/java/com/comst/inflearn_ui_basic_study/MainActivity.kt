@@ -14,10 +14,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -49,7 +52,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                ColumnRowTest2()
+                Column() {
+                    CardTest("1")
+                    CardTest("2")
+                }
             }
         }
     }
@@ -57,112 +63,29 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ColumnRowTest1() {
-    Column(
-        modifier = Modifier
+fun CardTest(txt : String){
+
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .height(100.dp)
+        .padding(10.dp),
+        shape = RoundedCornerShape(50.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp
+        ),
+        border = BorderStroke(1.dp, Color.Black)
+    ){
+        Box(modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp)
-            .background(Color.Gray)
-    ) {
-        Text(
-            text = "안녕하세요",
-            color = Color.Blue,
-            fontSize = 20.sp
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "왼쪽")
-            Text(text = "중앙")
-            Text(text = "오른쪽")
-
-        }
-
-        Text(
-            text = "반갑습니다.",
-            color = Color.Red,
-            fontSize = 20.sp
-        )
-
-    }
-}
-
-@Composable
-fun ColumnRowTest2() {
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
-            .background(Color.Cyan)
-            .border(
-                border = BorderStroke(5.dp, color = Color.Blue)
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier.padding(top = 20.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.insider),
-                contentDescription = "인사이더 프로젝트 이미지",
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(50.dp))
-            )
-        }
-
-        Text(
-            text = "컴쓰트",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 50.dp)
-        )
-
-        Text(
-            text = "Android Developer",
-            fontSize = 15.sp,
-            modifier = Modifier.padding(top = 10.dp)
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "이메일",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
+            .background(Color.LightGray),
+            contentAlignment = Alignment.Center
+        ){
 
             Text(
-                text = "comst19@naver.com",
-                fontSize = 20.sp,
-                modifier = Modifier.padding(10.dp),
-                color = Color.Blue
+                text = txt,
+                fontSize = 30.sp
             )
         }
-
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "연락처",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            Text(
-                text = "000-0000-0000",
-                fontSize = 20.sp,
-                modifier = Modifier.padding(10.dp),
-                color = Color.Blue
-            )
-        }
-
     }
 }
 
@@ -171,6 +94,9 @@ fun ColumnRowTest2() {
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        ColumnRowTest2()
+        Column() {
+            CardTest("1")
+            CardTest("2")
+        }
     }
 }
