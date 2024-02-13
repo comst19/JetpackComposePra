@@ -19,17 +19,30 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,62 +68,88 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MySurface2()
+                MyScaffoldEx()
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MySurface1(){
+fun MyScaffoldEx(){
 
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-        color = Color.Red,
-        shape = RoundedCornerShape(20.dp),
-        shadowElevation = 20.dp
-    ) {
-        Button(
-            onClick = {  },
-            colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = Color.Green
-            ),
-            ) {
-            Text(text = "클릭해보세요")
+    Scaffold(
+        topBar = {
+            MyTopBar()
+        },
+        floatingActionButton = {
+            MyFloatingActionButton()
+        },
+        bottomBar = {
+            MyBottomBar()
         }
-    }
-}
+    ) { paddingValues ->
 
-@Composable
-fun MySurface2(){
-
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.LightGray,
-        border = BorderStroke(2.dp, Color.Red),
-        contentColor =  Color.Blue
-    ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Surface(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
         ) {
-            Surface(
-                modifier = Modifier
-                    .size(200.dp),
-                color = Color.Red
-            ) {
-                Text(text = "This is Jetpack compose")
+            Text(text = "This is content")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTopBar(){
+
+    TopAppBar(
+        title = {
+            Text(text = "Main")
+        },
+        navigationIcon = {
+            IconButton(onClick = {  }) {
+                Icon(Icons.Default.Add, contentDescription = "add")
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "This is Jetpack Compose Ex"
-            )
+        },
+        actions = {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Btn")
+            }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(Color.Red)
+    )
+}
+
+@Composable
+fun MyFloatingActionButton(){
+    FloatingActionButton(onClick = { /*TODO*/ }) {
+        Icon(Icons.Default.Menu, contentDescription = "Menu")
+    }
+}
+
+@Composable
+fun MyBottomBar(){
+
+    BottomAppBar(
+        containerColor = Color.Red,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(Icons.Default.Home, contentDescription = "Home")
+            }
+
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(Icons.Default.Favorite, contentDescription = "Favorite")
+            }
+
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(Icons.Default.Settings, contentDescription = "Settings")
+            }
+
         }
     }
 }
@@ -119,6 +158,6 @@ fun MySurface2(){
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MySurface2()
+        MyScaffoldEx()
     }
 }
