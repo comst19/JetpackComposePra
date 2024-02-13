@@ -8,6 +8,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -70,14 +72,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MyLazyColumnEx()
+                MyLazyRowEx()
             }
         }
     }
 }
 
 @Composable
-fun MyLazyColumnEx(){
+fun MyLazyRowEx(){
 
     val textList = listOf(
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
@@ -86,12 +88,14 @@ fun MyLazyColumnEx(){
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
         )
 
-    LazyColumn{
+    LazyRow{
         items(textList) { item ->
             Text(
                 text = item,
-                fontSize = 60.sp,
-                modifier = Modifier.fillMaxWidth()
+                fontSize = 100.sp,
+                modifier = Modifier.clickable {
+                    println("Clicked item : $item")
+                }
             )
         }
     }
@@ -102,6 +106,6 @@ fun MyLazyColumnEx(){
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyLazyColumnEx()
+        MyLazyRowEx()
     }
 }
