@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -68,96 +70,38 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MyScaffoldEx()
+                MyLazyColumnEx()
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyScaffoldEx(){
+fun MyLazyColumnEx(){
 
-    Scaffold(
-        topBar = {
-            MyTopBar()
-        },
-        floatingActionButton = {
-            MyFloatingActionButton()
-        },
-        bottomBar = {
-            MyBottomBar()
-        }
-    ) { paddingValues ->
+    val textList = listOf(
+        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+        )
 
-        Surface(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-        ) {
-            Text(text = "This is content")
+    LazyColumn{
+        items(textList) { item ->
+            Text(
+                text = item,
+                fontSize = 60.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyTopBar(){
-
-    TopAppBar(
-        title = {
-            Text(text = "Main")
-        },
-        navigationIcon = {
-            IconButton(onClick = {  }) {
-                Icon(Icons.Default.Add, contentDescription = "add")
-            }
-        },
-        actions = {
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Btn")
-            }
-        },
-        colors = TopAppBarDefaults.smallTopAppBarColors(Color.Red)
-    )
-}
-
-@Composable
-fun MyFloatingActionButton(){
-    FloatingActionButton(onClick = { /*TODO*/ }) {
-        Icon(Icons.Default.Menu, contentDescription = "Menu")
-    }
-}
-
-@Composable
-fun MyBottomBar(){
-
-    BottomAppBar(
-        containerColor = Color.Red,
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Default.Home, contentDescription = "Home")
-            }
-
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Default.Favorite, contentDescription = "Favorite")
-            }
-
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Default.Settings, contentDescription = "Settings")
-            }
-
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyScaffoldEx()
+        MyLazyColumnEx()
     }
 }
