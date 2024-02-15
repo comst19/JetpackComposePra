@@ -62,6 +62,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -74,49 +75,68 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MyProgressIndicator()
+                MyTextArea3()
             }
         }
     }
 }
 
 @Composable
-fun MyProgressIndicator(){
+fun MyTextAreal(){
 
-    var progress by remember { mutableStateOf(0.0f) }
+    Column() {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Button(onClick = {
-            if (progress < 1.0f){
-                progress += 0.1f
-            }
-        }) {
-            Text(
-                text = "행복게이지",
-                fontSize = 30.sp
-            )
-        }
-        
-        Spacer(modifier = Modifier.size(30.dp))
-
-        LinearProgressIndicator(
-            progress = progress,
-            modifier = Modifier.height(10.dp),
-            color = Color.Red,
-            trackColor = Color.Cyan
-        )
-
-        Spacer(modifier = Modifier.size(30.dp))
-
-        CircularProgressIndicator(
-            progress = progress,
+        Text(
+            text = "안녕",
+            fontSize = 100.sp,
             color = Color.Red
         )
+        Text(
+            text = "나는",
+            fontSize = 100.sp,
+            color = Color.Gray
+        )
+        Text(
+            text = "누구야",
+            fontSize = 100.sp,
+            color = Color.Green
+        )
+    }
+}
+
+@Composable
+fun MyTextAreal2(){
+
+    Column() {
+        MyTextFormat1(text = "안녕", fontSize = 100.sp, color = Color.Red)
+        MyTextFormat1(text = "나는", fontSize = 100.sp, color = Color.Gray)
+        MyTextFormat1(text = "누구야", fontSize = 100.sp, color = Color.Green)
+
+    }
+}
+
+@Composable
+fun MyTextFormat1(text : String, fontSize : TextUnit, color : Color){
+    Text(text = text, fontSize = fontSize, color = color)
+}
+
+@Composable
+fun MyTextArea3(){
+    MyTextFormat2 {
+        Text(text = "안녕", fontSize = 100.sp, color = Color.Red)
+    }
+}
+
+@Composable
+fun MyTextFormat2(content : @Composable () -> Unit){
+
+    Column() {
+        content()
+        content()
+        content()
+        content()
+        content()
+
     }
 }
 
@@ -124,6 +144,6 @@ fun MyProgressIndicator(){
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyProgressIndicator()
+        MyTextArea3()
     }
 }
