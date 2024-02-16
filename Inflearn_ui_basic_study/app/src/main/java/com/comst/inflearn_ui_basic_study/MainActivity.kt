@@ -45,6 +45,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -75,68 +76,70 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MyTextArea3()
+                MyShowHideEx2()
+            }
+        }
+    }
+}
+
+
+// 버튼을 클릭하면 새로운 버튼이 나오는 것
+@Composable
+fun MyShowHideEx1() {
+
+    var isButtonVisible by remember {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        Button(onClick = { isButtonVisible = !isButtonVisible }) {
+
+            if (isButtonVisible) {
+                Text(text = "숨기기", fontSize = 50.sp)
+            } else {
+                Text(text = "보이기", fontSize = 50.sp)
+            }
+        }
+
+        if (isButtonVisible) {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "짠짠짠", fontSize = 50.sp)
             }
         }
     }
 }
 
 @Composable
-fun MyTextAreal(){
+fun MyShowHideEx2() {
 
-    Column() {
+    var switchState by remember {
+        mutableStateOf(false)
+    }
+
+    Column(modifier = Modifier.padding(20.dp)) {
+
+        Switch(
+            checked = switchState,
+            onCheckedChange = {
+                    checked -> switchState = checked
+            }
+        )
 
         Text(
-            text = "안녕",
-            fontSize = 100.sp,
-            color = Color.Red
+            text = if (switchState) "ON" else "OFF",
+            fontSize = 100.sp
         )
-        Text(
-            text = "나는",
-            fontSize = 100.sp,
-            color = Color.Gray
-        )
-        Text(
-            text = "누구야",
-            fontSize = 100.sp,
-            color = Color.Green
-        )
-    }
-}
-
-@Composable
-fun MyTextAreal2(){
-
-    Column() {
-        MyTextFormat1(text = "안녕", fontSize = 100.sp, color = Color.Red)
-        MyTextFormat1(text = "나는", fontSize = 100.sp, color = Color.Gray)
-        MyTextFormat1(text = "누구야", fontSize = 100.sp, color = Color.Green)
-
-    }
-}
-
-@Composable
-fun MyTextFormat1(text : String, fontSize : TextUnit, color : Color){
-    Text(text = text, fontSize = fontSize, color = color)
-}
-
-@Composable
-fun MyTextArea3(){
-    MyTextFormat2 {
-        Text(text = "안녕", fontSize = 100.sp, color = Color.Red)
-    }
-}
-
-@Composable
-fun MyTextFormat2(content : @Composable () -> Unit){
-
-    Column() {
-        content()
-        content()
-        content()
-        content()
-        content()
-
+        
+        if (switchState){
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "얍얍", fontSize = 100.sp)
+            }
+        }
     }
 }
 
@@ -144,6 +147,6 @@ fun MyTextFormat2(content : @Composable () -> Unit){
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyTextArea3()
+        MyShowHideEx2()
     }
 }
