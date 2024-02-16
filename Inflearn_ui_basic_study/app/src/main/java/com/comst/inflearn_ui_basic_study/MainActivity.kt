@@ -67,6 +67,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.comst.inflearn_ui_basic_study.ui.theme.Inflearn_ui_basic_studyTheme
 
@@ -76,69 +80,95 @@ class MainActivity : ComponentActivity() {
         setContent {
             Inflearn_ui_basic_studyTheme {
                 // A surface container using the 'background' color from the theme
-                MyShowHideEx2()
+                MyNav()
             }
         }
     }
 }
 
-
-// 버튼을 클릭하면 새로운 버튼이 나오는 것
 @Composable
-fun MyShowHideEx1() {
-
-    var isButtonVisible by remember {
-        mutableStateOf(false)
-    }
+fun MyScreen1(navController: NavController) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Button(onClick = { isButtonVisible = !isButtonVisible }) {
-
-            if (isButtonVisible) {
-                Text(text = "숨기기", fontSize = 50.sp)
-            } else {
-                Text(text = "보이기", fontSize = 50.sp)
-            }
-        }
-
-        if (isButtonVisible) {
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "짠짠짠", fontSize = 50.sp)
-            }
+        Text(
+            text = "화면1",
+            fontSize = 50.sp
+        )
+        Button(onClick = {
+            navController.navigate("myScreen2")
+        }) {
+            Text(
+                text = "2번 화면으로 가기",
+                fontSize = 30.sp
+            )
         }
     }
 }
 
 @Composable
-fun MyShowHideEx2() {
+fun MyScreen2(navController: NavController) {
 
-    var switchState by remember {
-        mutableStateOf(false)
-    }
-
-    Column(modifier = Modifier.padding(20.dp)) {
-
-        Switch(
-            checked = switchState,
-            onCheckedChange = {
-                    checked -> switchState = checked
-            }
-        )
-
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
-            text = if (switchState) "ON" else "OFF",
-            fontSize = 100.sp
+            text = "화면2",
+            fontSize = 50.sp
         )
-        
-        if (switchState){
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "얍얍", fontSize = 100.sp)
-            }
+        Button(onClick = {
+            navController.navigate("myScreen3")
+        }) {
+            Text(
+                text = "3번 화면으로 가기",
+                fontSize = 30.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun MyScreen3(navController: NavController) {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "화면3",
+            fontSize = 50.sp
+        )
+        Button(onClick = {
+            navController.navigate("myScreen1")
+        }) {
+            Text(
+                text = "1번 화면으로 가기",
+                fontSize = 30.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun MyNav(){
+
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "myScreen1"){
+        composable("myScreen1"){
+            MyScreen1(navController = navController)
+        }
+        composable("myScreen2"){
+            MyScreen2(navController = navController)
+        }
+        composable("myScreen3"){
+            MyScreen3(navController = navController)
         }
     }
 }
@@ -147,6 +177,6 @@ fun MyShowHideEx2() {
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyShowHideEx2()
+        MyNav()
     }
 }
