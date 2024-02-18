@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -102,123 +103,69 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Inflearn_ui_basic_studyTheme {
-                MyDrawer()
+                MyDialog()
             }
         }
     }
 
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyDrawer() {
+fun MyDialog() {
 
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-
-    val screens = listOf(
-        Screen.Home,
-        Screen.Settings,
-        Screen.Phone,
-        Screen.Search,
-        Screen.Lock,
-    )
-
-    val selectedScreen: MutableState<Screen> = remember {
-        mutableStateOf(Screen.Home)
+    var dialogFlag by remember { mutableStateOf(false) }
+    var inputText by remember {
+        mutableStateOf("")
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text(text = "MyDrawer") },
-                navigationIcon = {
-                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { dialogFlag = true }) {
+            Text(text = "나와라 Dialog")
+        }
+
+        if (dialogFlag) {
+            AlertDialog(
+                onDismissRequest = { },
+                title = { Text(text = "Dialog Title") },
+                text = {
+                       TextField(value = inputText, onValueChange = {inputText = it})
+                },
+                confirmButton = {
+                    Button(
+                        onClick = { dialogFlag = false },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+                    ) {
+                        Text(text = "OK")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { dialogFlag = false },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    ) {
+                        Text(text = "NO")
                     }
                 }
             )
         }
-    ) { paddingValues ->
-        ModalNavigationDrawer(
-            drawerState = drawerState,
-            modifier = Modifier.padding(paddingValues),
-            drawerContent = {
-                ModalDrawerSheet {
-                    screens.forEach { screen ->
-                        NavigationDrawerItem(
-                            icon = { Icon(screen.icon, contentDescription = screen.icon.name) },
-                            label = { Text(text = screen.name) },
-                            selected = screen == selectedScreen.value,
-                            onClick = {
-                                scope.launch { drawerState.close() }
-                                selectedScreen.value = screen
-                            }
-                        )
-                    }
-                }
-            },
-            content = {
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ){
-                    when( selectedScreen.value){
-                        Screen.Home -> HomeScreen()
-                        Screen.Settings -> SettingScreen()
-                        Screen.Phone -> PhoneScreen()
-                        Screen.Search -> SearchScreen()
-                        Screen.Lock -> LockScreen()
-                    }
-                }
-            }
-        )
 
+        if (inputText.isNotEmpty()){
+            Text(text = "입력된 텍스트 : $inputText")
+        }
     }
-}
-
-@Composable
-fun HomeScreen() {
-    Text(text = "HomeScreen")
-}
-
-@Composable
-fun SettingScreen() {
-    Text(text = "SettingScreen")
-}
-
-@Composable
-fun PhoneScreen() {
-    Text(text = "PhoneScreen")
-}
-
-@Composable
-fun SearchScreen() {
-    Text(text = "SearchScreen")
-}
-
-@Composable
-fun LockScreen() {
-    Text(text = "LockScreen")
-}
-
-sealed class Screen(val name: String, val icon: ImageVector) {
-
-    object Home : Screen("Home", Icons.Default.Home)
-    object Settings : Screen("Settings", Icons.Default.Settings)
-    object Phone : Screen("Phone", Icons.Default.Phone)
-    object Search : Screen("Search", Icons.Default.Search)
-    object Lock : Screen("Lock", Icons.Default.Lock)
 
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     Inflearn_ui_basic_studyTheme {
-        MyDrawer()
+        MyDialog()
     }
 }
