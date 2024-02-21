@@ -3,11 +3,15 @@ package com.comst.diceapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,7 +57,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyDiceApp() {
 
-    var diceNumber by remember { mutableStateOf(1) }
+    var diceNumber by remember { mutableStateOf(5) }
 
     Column(
         modifier = Modifier
@@ -68,14 +72,22 @@ fun MyDiceApp() {
                 .size(300.dp)
                 .border(3.dp, Color.Black)
                 .background(Color.White)
-                .padding(20.dp)
+                .padding(20.dp),
+            contentAlignment = Alignment.Center
         ) {
-
+            when (diceNumber) {
+                1 -> DiceNumberCircle1()
+                2 -> DiceNumberCircle2()
+                3 -> DiceNumberCircle3()
+                4 -> DiceNumberCircle4()
+                5 -> DiceNumberCircle5()
+                6 -> DiceNumberCircle6()
+            }
         }
 
         Button(
             onClick = {
-                diceNumber = Random.nextInt(1,7)
+                diceNumber = Random.nextInt(1, 7)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,6 +113,86 @@ fun MyDiceApp() {
     }
 }
 
+@Composable
+fun DiceNumberCircle1() {
+
+    Box(
+        modifier = Modifier.size(50.dp)
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawCircle(Color.Black, radius = size.minDimension / 10)
+        }
+    }
+}
+
+@Composable
+fun DiceNumberCircle2() {
+
+    Row {
+        DiceNumberCircle1()
+        Spacer(modifier = Modifier.size(50.dp))
+        DiceNumberCircle1()
+    }
+}
+
+@Composable
+fun DiceNumberCircle3() {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+            DiceNumberCircle1()
+        }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            DiceNumberCircle1()
+        }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            DiceNumberCircle1()
+        }
+    }
+}
+
+@Composable
+fun DiceNumberCircle4() {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DiceNumberCircle2()
+        DiceNumberCircle2()
+    }
+}
+
+@Composable
+fun DiceNumberCircle5() {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DiceNumberCircle2()
+        DiceNumberCircle1()
+        DiceNumberCircle2()
+    }
+}
+
+@Composable
+fun DiceNumberCircle6() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DiceNumberCircle2()
+        DiceNumberCircle2()
+        DiceNumberCircle2()
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
