@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.comst.diceapp.ui.theme.DiceAppTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +74,9 @@ fun MyDiceApp() {
         }
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                diceNumber = Random.nextInt(1,7)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(50.dp)
@@ -85,7 +88,8 @@ fun MyDiceApp() {
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                modifier = Modifier.fillMaxWidth()
             )
         }
 
