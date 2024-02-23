@@ -3,9 +3,14 @@ package com.comst.calendarapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -13,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,12 +48,14 @@ fun CalendarApp() {
         mutableStateOf(calendarInstance)
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(20.dp),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CalendarHeader(time)
+        CalendarHeaderBtn(time)
     }
 }
 
@@ -60,6 +68,46 @@ fun CalendarHeader(date: MutableState<Calendar>) {
         text = resultTime,
         fontSize = 30.sp
     )
+}
+
+@Composable
+fun CalendarHeaderBtn(date: MutableState<Calendar>) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 30.dp, bottom = 30.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            onClick = {
+                val newDate = Calendar.getInstance()
+                newDate.time = date.value.time
+                newDate.add(Calendar.MONTH, -1)
+                date.value = newDate
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+        ) {
+            Text(
+                text = "<",
+                color = Color.Green
+            )
+        }
+        Button(
+            onClick = {
+                val newDate = Calendar.getInstance()
+                newDate.time = date.value.time
+                newDate.add(Calendar.MONTH, 1)
+                date.value = newDate
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+        ) {
+            Text(
+                text = ">",
+                color = Color.Green
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
