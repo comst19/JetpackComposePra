@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -59,6 +60,7 @@ fun CalendarApp() {
         CalendarHeader(time)
         CalendarHeaderBtn(time)
         CalendarDayName()
+        CalendarDayList(time)
     }
 }
 
@@ -114,16 +116,16 @@ fun CalendarHeaderBtn(date: MutableState<Calendar>) {
 }
 
 @Composable
-fun CalendarDayName(){
+fun CalendarDayName() {
 
     val nameList = listOf("일", "월", "화", "수", "목", "금", "토")
 
     Row() {
-        nameList.forEach{
+        nameList.forEach {
             Box(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Text(
                     text = it,
                     fontSize = 18.sp,
@@ -134,6 +136,46 @@ fun CalendarDayName(){
 
 
     }
+}
+
+@Composable
+fun CalendarDayList(date: MutableState<Calendar>) {
+
+    // 달력 그리는 공식
+    date.value.set(Calendar.DAY_OF_MONTH, 1)
+
+    val monthDayMax = date.value.getActualMaximum(Calendar.DAY_OF_MONTH) // 현재 달의 max
+    val monthFirstDay = date.value.get(Calendar.DAY_OF_WEEK) - 1 // 1일이 무슨 요일부터인지
+    val monthWeeksCount = (monthDayMax + monthFirstDay + 6) / 7 // 현재 달의 week 갯수
+
+    Column() {
+        repeat(monthWeeksCount) { week ->
+
+            Row() {
+                repeat(7) { day ->
+                    // 날짜 구하는 공식
+                    val resultDay = week * 7 + day - monthFirstDay + 1
+
+                    if (resultDay in 1..monthDayMax) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(10.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = resultDay.toString(),
+                                fontSize = 25.sp
+                            )
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 @Preview(showBackground = true)
