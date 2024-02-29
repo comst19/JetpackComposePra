@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Bar_ChartTheme {
-                Ex1_2()
+                Ex1_3()
             }
         }
     }
