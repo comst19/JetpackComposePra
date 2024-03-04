@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,17 +41,18 @@ fun MainScreen() {
         TopMenu()
         TopMenuBottom()
         SpendThisMonth()
-
+        SpendThisMonthProgressBar()
     }
 
 
 }
 
 @Composable
-fun Header(){
+fun Header() {
 
-    Row(modifier = Modifier
-        .fillMaxSize(),
+    Row(
+        modifier = Modifier
+            .fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
@@ -71,15 +73,17 @@ fun Header(){
 }
 
 @Composable
-fun TopMenu(){
+fun TopMenu() {
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 5.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 5.dp)
     ) {
 
-        Box(modifier = Modifier
-            .weight(1f),
+        Box(
+            modifier = Modifier
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -89,8 +93,9 @@ fun TopMenu(){
             )
         }
 
-        Box(modifier = Modifier
-            .weight(1f),
+        Box(
+            modifier = Modifier
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
 
@@ -102,8 +107,9 @@ fun TopMenu(){
 
         }
 
-        Box(modifier = Modifier
-            .weight(1f),
+        Box(
+            modifier = Modifier
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
 
@@ -121,33 +127,36 @@ fun TopMenu(){
 }
 
 @Composable
-fun TopMenuBottom(){
+fun TopMenuBottom() {
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 5.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 5.dp)
     ) {
 
-        Box(modifier = Modifier
-            .weight(1f),
+        Box(
+            modifier = Modifier
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
 
         }
 
-        Box(modifier = Modifier
-            .weight(1f)
-            .padding(top = 15.dp, start = 5.dp, end = 5.dp)
-            .height(2.dp)
-            .background(Color.White)
-            ,
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = 15.dp, start = 5.dp, end = 5.dp)
+                .height(2.dp)
+                .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
 
         }
 
-        Box(modifier = Modifier
-            .weight(1f),
+        Box(
+            modifier = Modifier
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
 
@@ -160,10 +169,12 @@ fun TopMenuBottom(){
 }
 
 @Composable
-fun SpendThisMonth(){
+fun SpendThisMonth() {
 
-    Row(modifier = Modifier
-        .padding(10.dp)) {
+    Row(
+        modifier = Modifier
+            .padding(10.dp)
+    ) {
 
         FaIcon(
             faIcon = FaIcons.CaretLeft,
@@ -186,8 +197,6 @@ fun SpendThisMonth(){
         )
 
 
-
-
     }
 
     Text(
@@ -206,6 +215,60 @@ fun SpendThisMonth(){
         modifier = Modifier.padding(start = 20.dp, top = 10.dp)
     )
 
+}
+
+@Composable
+fun SpendThisMonthProgressBar() {
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+    ) {
+
+        Box(
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .weight(7f)
+                .height(30.dp)
+                .background(Color.Red, shape = RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
+        ) {
+
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .weight(1f)
+                .height(30.dp)
+                .background(Color.Gray)
+        ){
+
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .weight(1f)
+                .height(30.dp)
+                .background(Color.Blue)
+        ){
+
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .weight(1f)
+                .height(30.dp)
+                .background(Color.Green,shape = RoundedCornerShape(topStart = 5.dp, bottomEnd = 5.dp))
+        ){
+
+        }
+
+
+
+    }
 }
 
 @Preview(showBackground = true)
