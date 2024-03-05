@@ -1,5 +1,6 @@
 package com.comst.financeapp.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,11 +20,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.comst.financeapp.R
 import com.comst.financeapp.ui.theme.FinanceAppTheme
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
@@ -42,6 +47,7 @@ fun MainScreen() {
         TopMenuBottom()
         SpendThisMonth()
         SpendThisMonthProgressBar()
+        SpendThisMonthCategoryList()
     }
 
 
@@ -231,7 +237,10 @@ fun SpendThisMonthProgressBar() {
                 .padding(end = 5.dp)
                 .weight(7f)
                 .height(30.dp)
-                .background(Color.Red, shape = RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp))
+                .background(
+                    Color.Red,
+                    shape = RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp)
+                )
         ) {
 
         }
@@ -242,7 +251,7 @@ fun SpendThisMonthProgressBar() {
                 .weight(1f)
                 .height(30.dp)
                 .background(Color.Gray)
-        ){
+        ) {
 
         }
 
@@ -252,7 +261,7 @@ fun SpendThisMonthProgressBar() {
                 .weight(1f)
                 .height(30.dp)
                 .background(Color.Blue)
-        ){
+        ) {
 
         }
 
@@ -261,13 +270,171 @@ fun SpendThisMonthProgressBar() {
                 .padding(end = 5.dp)
                 .weight(1f)
                 .height(30.dp)
-                .background(Color.Green,shape = RoundedCornerShape(topStart = 5.dp, bottomEnd = 5.dp))
-        ){
+                .background(
+                    Color.Green,
+                    shape = RoundedCornerShape(topStart = 5.dp, bottomEnd = 5.dp)
+                )
+        ) {
 
         }
 
 
+    }
+}
 
+@Composable
+fun SpendThisMonthCategoryList() {
+
+    Column(
+        modifier = Modifier.padding(20.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Box() {
+
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(Color.Red, shape = RoundedCornerShape(20.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.category1),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier.size(25.dp)
+                    )
+
+                }
+                Column(modifier = Modifier.padding(start = 50.dp)) {
+                    Text(text = "이체", color = Color.White)
+                    Text(text = "70%", color = Color.White)
+                }
+            }
+
+            Text(
+                text = "700,000원",
+                color = Color.LightGray,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Box() {
+
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(Color.Gray, shape = RoundedCornerShape(20.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.category2),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier.size(25.dp)
+                    )
+
+                }
+                Column(modifier = Modifier.padding(start = 50.dp)) {
+                    Text(text = "송금", color = Color.White)
+                    Text(text = "10%", color = Color.White)
+                }
+            }
+
+            Text(
+                text = "100,000원",
+                color = Color.LightGray,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Box() {
+
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(Color.Blue, shape = RoundedCornerShape(20.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.category3),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier.size(25.dp)
+                    )
+
+                }
+                Column(modifier = Modifier.padding(start = 50.dp)) {
+                    Text(text = "저금", color = Color.White)
+                    Text(text = "10%", color = Color.White)
+                }
+            }
+
+            Text(
+                text = "100,000원",
+                color = Color.LightGray,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Box() {
+
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(Color.Green, shape = RoundedCornerShape(20.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.category4),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier.size(25.dp)
+                    )
+
+                }
+                Column(modifier = Modifier.padding(start = 50.dp)) {
+                    Text(text = "월세", color = Color.White)
+                    Text(text = "10%", color = Color.White)
+                }
+            }
+
+            Text(
+                text = "100,000원",
+                color = Color.LightGray,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
