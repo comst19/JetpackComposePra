@@ -1,5 +1,6 @@
 package com.comst.financeapp.screen
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -31,6 +34,7 @@ import com.comst.financeapp.R
 import com.comst.financeapp.ui.theme.FinanceAppTheme
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
+import java.time.Clock.offset
 
 @Composable
 fun MainScreen() {
@@ -48,6 +52,9 @@ fun MainScreen() {
         SpendThisMonth()
         SpendThisMonthProgressBar()
         SpendThisMonthCategoryList()
+        SpaceGray()
+        SpendGraphHeader()
+        SpendGraph()
     }
 
 
@@ -436,6 +443,63 @@ fun SpendThisMonthCategoryList() {
             )
         }
     }
+}
+
+@Composable
+fun SpaceGray() {
+
+    Box(
+        modifier = Modifier
+            .padding(top = 20.dp, bottom = 20.dp)
+            .fillMaxWidth()
+            .height(10.dp)
+            .background(Color.DarkGray)
+    )
+}
+
+@Composable
+fun SpendGraphHeader() {
+    Text(text = "이번달", color = Color.White, modifier = Modifier.padding(start = 15.dp))
+}
+
+@Composable
+fun SpendGraph() {
+
+    val dotPositions = listOf(400f, 300f, 750f, 600f, 800f)
+
+    Canvas(modifier = Modifier
+        .height(200.dp)
+        .fillMaxWidth()
+        .padding(15.dp)
+    ){
+
+        val width = size.width
+        val height = size.height
+
+        val maxPosition = dotPositions.max()
+        val minPosition = dotPositions.min()
+
+        // x,y
+        val positionMap = dotPositions.mapIndexed{ index, value ->
+
+            val x = (width / (dotPositions.size - 1)) * index
+            val y = height - (height * (value - minPosition) / (maxPosition - minPosition))
+            x to y
+        }
+
+        positionMap.zipWithNext { a,b ->
+
+            drawLine(
+                color = Color.Gray,
+                start = Offset(a.first, a.second),
+                end = Offset(b.first, b.second),
+                strokeWidth = 5f,
+                cap = Stroke.DefaultCap
+            )
+        }
+
+    }
+
 }
 
 @Preview(showBackground = true)
