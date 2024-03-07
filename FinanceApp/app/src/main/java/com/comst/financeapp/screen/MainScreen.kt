@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,6 +56,9 @@ fun MainScreen() {
         SpaceGray()
         SpendGraphHeader()
         SpendGraph()
+        SpaceGray()
+        SpendThisMonthInsuranceHeader()
+        SpendThisMonthInsuranceGraph()
     }
 
 
@@ -466,12 +470,14 @@ fun SpendGraphHeader() {
 fun SpendGraph() {
 
     val dotPositions = listOf(400f, 300f, 750f, 600f, 800f)
+    val dotPositionsNew = listOf(500f, 200f, 700f)
 
-    Canvas(modifier = Modifier
-        .height(200.dp)
-        .fillMaxWidth()
-        .padding(15.dp)
-    ){
+    Canvas(
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+            .padding(15.dp)
+    ) {
 
         val width = size.width
         val height = size.height
@@ -480,14 +486,14 @@ fun SpendGraph() {
         val minPosition = dotPositions.min()
 
         // x,y
-        val positionMap = dotPositions.mapIndexed{ index, value ->
+        val positionMap = dotPositions.mapIndexed { index, value ->
 
             val x = (width / (dotPositions.size - 1)) * index
             val y = height - (height * (value - minPosition) / (maxPosition - minPosition))
             x to y
         }
 
-        positionMap.zipWithNext { a,b ->
+        positionMap.zipWithNext { a, b ->
 
             drawLine(
                 color = Color.Gray,
@@ -498,8 +504,115 @@ fun SpendGraph() {
             )
         }
 
+        // x,y
+        val positionMapNew = dotPositionsNew.mapIndexed { index, value ->
+
+            val x = (width / (dotPositions.size - 1)) * index
+            val y = height - (height * (value - minPosition) / (maxPosition - minPosition))
+            x to y
+        }
+
+        positionMapNew.zipWithNext { a, b ->
+
+            drawLine(
+                color = Color.Blue,
+                start = Offset(a.first, a.second),
+                end = Offset(b.first, b.second),
+                strokeWidth = 5f,
+                cap = Stroke.DefaultCap
+            )
+        }
+
     }
 
+    Spacer(modifier = Modifier.padding(20.dp))
+
+}
+
+@Composable
+fun SpendThisMonthInsuranceHeader() {
+
+    Text(text = "매달 내는 보험료 적절할까요?", color = Color.White, modifier = Modifier.padding(start = 15.dp))
+
+
+}
+
+@Composable
+fun SpendThisMonthInsuranceGraph() {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 30.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom
+    ) {
+        Box(
+            modifier = Modifier
+                .width(80.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "과일",
+                    color = Color.White
+                )
+
+                Box(
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .width(60.dp)
+                        .height(160.dp)
+                        .background(
+                            Color.Red
+                        )
+                ){
+
+                }
+                Text(
+                    modifier = Modifier.padding(top = 20.dp),
+                    text = "600,000원",
+                    color = Color.White
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .width(80.dp),
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "부족",
+                    color = Color.White
+                )
+
+                Box(
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .width(60.dp)
+                        .height(20.dp)
+                        .background(
+                            Color.Blue
+                        )
+                ){
+
+                }
+                Text(
+                    modifier = Modifier.padding(top = 20.dp),
+                    text = "???,???원",
+                    color = Color.White
+                )
+            }
+        }
+    }
+    
+    Spacer(modifier = Modifier.padding(20.dp))
 }
 
 @Preview(showBackground = true)
