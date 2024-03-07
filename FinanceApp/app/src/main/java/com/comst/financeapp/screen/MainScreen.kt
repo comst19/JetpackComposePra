@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.comst.financeapp.R
+import com.comst.financeapp.animation.TextAnimation
 import com.comst.financeapp.ui.theme.FinanceAppTheme
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
@@ -216,12 +218,19 @@ fun SpendThisMonth() {
 
     }
 
-    Text(
-        text = "1,000,000원",
-        color = Color.White,
+//    Text(
+//        text = "1,000,000원",
+//        color = Color.White,
+//        fontSize = 20.sp,
+//        fontWeight = FontWeight.Bold,
+//        modifier = Modifier.padding(start = 20.dp)
+//    )
+    TextAnimation(
+        targetValue = 1000000,
+        textColor = Color.White,
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(start = 20.dp)
+        padding = PaddingValues(start = 20.dp)
     )
 
     Text(
