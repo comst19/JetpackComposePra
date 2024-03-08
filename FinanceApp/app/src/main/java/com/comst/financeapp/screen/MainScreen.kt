@@ -1,5 +1,7 @@
 package com.comst.financeapp.screen
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,11 +22,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +69,7 @@ fun MainScreen() {
         SpaceGray()
         SpendThisMonthInsuranceHeader()
         SpendThisMonthInsuranceGraph()
+        Spacer(modifier = Modifier.padding(20.dp))
     }
 
 
@@ -246,6 +255,49 @@ fun SpendThisMonth() {
 @Composable
 fun SpendThisMonthProgressBar() {
 
+    var startAnimation by remember { mutableStateOf(false) }
+
+    val weightList = listOf(7f, 1f, 1f, 1f)
+
+    val animatedWeights = weightList.map {
+        animateFloatAsState(targetValue = if (startAnimation) it else 0.1f, animationSpec = tween(durationMillis = 3000))
+    }
+
+    LaunchedEffect(Unit){
+        startAnimation = true
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+    ) {
+
+        animatedWeights.forEachIndexed {index, state ->
+            Box(
+                modifier = Modifier
+                    .padding(end = 5.dp)
+                    .weight(state.value)
+                    .height(30.dp)
+                    .background(
+                        color = when(index){
+                            0 -> { Color.Red }
+                            1 -> { Color.Gray }
+                            2 -> { Color.Blue }
+                            else -> { Color.Green }
+                        },
+                        shape = when(index) {
+                            0 -> { RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp) }
+                            3 -> { RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp)}
+                            else -> { RectangleShape }
+                        }
+                    )
+            ) {
+
+            }
+        }
+
+    }
+    /*
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -300,6 +352,8 @@ fun SpendThisMonthProgressBar() {
 
 
     }
+    */
+
 }
 
 @Composable
@@ -620,7 +674,7 @@ fun SpendThisMonthInsuranceGraph() {
             }
         }
     }
-    
+
     Spacer(modifier = Modifier.padding(20.dp))
 }
 
