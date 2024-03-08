@@ -1,6 +1,9 @@
 package com.comst.financeapp.screen
 
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -260,10 +263,13 @@ fun SpendThisMonthProgressBar() {
     val weightList = listOf(7f, 1f, 1f, 1f)
 
     val animatedWeights = weightList.map {
-        animateFloatAsState(targetValue = if (startAnimation) it else 0.1f, animationSpec = tween(durationMillis = 3000))
+        animateFloatAsState(
+            targetValue = if (startAnimation) it else 0.1f,
+            animationSpec = tween(durationMillis = 3000)
+        )
     }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         startAnimation = true
     }
     Row(
@@ -272,23 +278,42 @@ fun SpendThisMonthProgressBar() {
             .padding(top = 20.dp, start = 20.dp, end = 20.dp)
     ) {
 
-        animatedWeights.forEachIndexed {index, state ->
+        animatedWeights.forEachIndexed { index, state ->
             Box(
                 modifier = Modifier
                     .padding(end = 5.dp)
                     .weight(state.value)
                     .height(30.dp)
                     .background(
-                        color = when(index){
-                            0 -> { Color.Red }
-                            1 -> { Color.Gray }
-                            2 -> { Color.Blue }
-                            else -> { Color.Green }
+                        color = when (index) {
+                            0 -> {
+                                Color.Red
+                            }
+
+                            1 -> {
+                                Color.Gray
+                            }
+
+                            2 -> {
+                                Color.Blue
+                            }
+
+                            else -> {
+                                Color.Green
+                            }
                         },
-                        shape = when(index) {
-                            0 -> { RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp) }
-                            3 -> { RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp)}
-                            else -> { RectangleShape }
+                        shape = when (index) {
+                            0 -> {
+                                RoundedCornerShape(topStart = 5.dp, bottomStart = 5.dp)
+                            }
+
+                            3 -> {
+                                RoundedCornerShape(topEnd = 5.dp, bottomEnd = 5.dp)
+                            }
+
+                            else -> {
+                                RectangleShape
+                            }
                         }
                     )
             ) {
@@ -535,6 +560,15 @@ fun SpendGraph() {
     val dotPositions = listOf(400f, 300f, 750f, 600f, 800f)
     val dotPositionsNew = listOf(500f, 200f, 700f)
 
+
+    // 2 - 찍은 점이 번쩍번쩍 하기
+    val showHideEffect = rememberInfiniteTransition()
+    val showHideAnimation = showHideEffect.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(animation = tween(1000))
+    )
+
     Canvas(
         modifier = Modifier
             .height(200.dp)
@@ -586,6 +620,16 @@ fun SpendGraph() {
             )
         }
 
+        // 1 - 점찍기
+        positionMapNew.lastOrNull().let {
+            drawCircle(
+                color = Color.Blue,
+                radius = 13f,
+                center = Offset(it?.first ?: 0f, it?.second ?: 0f),
+                alpha = showHideAnimation.value
+            )
+        }
+
     }
 
     Spacer(modifier = Modifier.padding(20.dp))
@@ -631,7 +675,7 @@ fun SpendThisMonthInsuranceGraph() {
                         .background(
                             Color.Red
                         )
-                ){
+                ) {
 
                 }
                 Text(
@@ -663,7 +707,7 @@ fun SpendThisMonthInsuranceGraph() {
                         .background(
                             Color.Blue
                         )
-                ){
+                ) {
 
                 }
                 Text(
