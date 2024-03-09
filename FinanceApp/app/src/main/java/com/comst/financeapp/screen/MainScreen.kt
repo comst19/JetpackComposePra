@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -55,6 +56,25 @@ import java.time.Clock.offset
 @Composable
 fun MainScreen() {
 
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Black)){
+        item { Header() }
+        item { TopMenu() }
+        item { TopMenuBottom() }
+        item { SpendThisMonth() }
+        item { SpendThisMonthProgressBar() }
+        item { SpendThisMonthCategoryList() }
+        item { SpaceGray() }
+        item { SpendGraphHeader() }
+        item { SpendGraph() }
+        item { SpaceGray() }
+        item { SpendThisMonthInsuranceHeader() }
+        item { SpendThisMonthInsuranceGraph() }
+        item { Spacer(modifier = Modifier.padding(20.dp)) }
+    }
+
+    /*
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,6 +97,7 @@ fun MainScreen() {
         Spacer(modifier = Modifier.padding(20.dp))
     }
 
+     */
 
 }
 
