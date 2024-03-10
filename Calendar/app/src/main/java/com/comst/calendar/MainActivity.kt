@@ -120,7 +120,7 @@ fun CalendarDayList() {
     val thisMonthFirstDay = date.get(Calendar.DAY_OF_WEEK) -1
     val thisMonthWeeksCount = (thisMonthDayMax + thisMonthFirstDay + 6) / 7
 
-    Column() {
+    Column(modifier = Modifier.padding(top = 20.dp)) {
 
         repeat(thisMonthWeeksCount) { week ->
             Row() {
@@ -136,7 +136,17 @@ fun CalendarDayList() {
                                 .border(1.dp, Color.Gray),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = resultDay.toString(), fontSize = 14.sp)
+                            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(20.dp)
+                                    .background(Color(0xFF89CFF0)))
+
+                                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                                    Text(text = resultDay.toString(), fontSize = 14.sp)
+
+                                }
+                            }
                         }
                     } else {
                         // 범위 밖에
@@ -146,7 +156,14 @@ fun CalendarDayList() {
                                 .height(60.dp)
                                 .border(1.dp, Color.Gray),
                             contentAlignment = Alignment.Center
-                        ) {}
+                        ) {
+                            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(20.dp)
+                                    .background(Color(0xFF89CFF0)))
+                            }
+                        }
                     }
                 }
             }
