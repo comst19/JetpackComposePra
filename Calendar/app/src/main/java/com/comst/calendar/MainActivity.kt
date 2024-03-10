@@ -117,7 +117,7 @@ fun CalendarDayList() {
 
     // 달력 계싼 공식 필요값
     val thisMonthDayMax = date.getActualMaximum(Calendar.DAY_OF_MONTH)
-    val thisMonthFirstDay = date.get(Calendar.DAY_OF_WEEK)
+    val thisMonthFirstDay = date.get(Calendar.DAY_OF_WEEK) -1
     val thisMonthWeeksCount = (thisMonthDayMax + thisMonthFirstDay + 6) / 7
 
     Column() {
