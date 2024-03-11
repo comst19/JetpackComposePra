@@ -15,12 +15,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +35,7 @@ import com.comst.calendar.CalendarData.spendingData
 import com.comst.calendar.ui.theme.CalendarTheme
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
+import kotlinx.coroutines.flow.collect
 import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
@@ -46,8 +50,7 @@ class MainActivity : ComponentActivity() {
                         .background(Color.White)
                 ) {
                     CalendarHeader()
-                    CalendarDayNames()
-                    CalendarDayList()
+
                     CalendarLazeList()
                 }
             }
@@ -193,7 +196,27 @@ fun CalendarDayList() {
 fun CalendarLazeList() {
     Log.d("spendingData", "$spendingData")
 
-    LazyColumn(modifier = Modifier.padding(20.dp)) {
+    val lazyColumnState = rememberLazyListState()
+    val isScrolling = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit){
+        snapshotFlow { lazyColumnState.isScrollInProgress }.collect{
+            isScrolling.value = it
+            Log.d("isScrolling", "${isScrolling.value}")
+        }
+    }
+
+    if (isScrolling.value){
+
+    }else{
+        CalendarDayNames()
+        CalendarDayList()
+    }
+
+    LazyColumn(
+        modifier = Modifier.padding(20.dp),
+        state = lazyColumnState)
+    {
         spendingData.keys.forEach { day ->
 
             item {
