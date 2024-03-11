@@ -155,7 +155,18 @@ fun CalendarDayList() {
                                         .fillMaxWidth()
                                         .height(20.dp)
                                         .background(Color(0xFF89CFF0))
-                                )
+                                ){
+                                    val income = spendingData[resultDay]?.get(0)?.price ?: 0
+                                    val outcome = spendingData[resultDay]?.get(1)?.price ?: 0
+
+                                    val result = income - outcome
+
+                                    if (result < 0){
+                                        Text(text = result.toString(), color = Color.Red)
+                                    }else{
+                                        Text(text = result.toString(), color = Color.Blue)
+                                    }
+                                }
 
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
@@ -240,7 +251,18 @@ fun CalendarLazeList() {
                                 .fillMaxWidth()
                                 .height(20.dp)
                                 .background(Color(0xFF89CFF0))
-                        )
+                        ){
+                            val income = spendingData[day]?.get(0)?.price ?: 0
+                            val outcome = spendingData[day]?.get(1)?.price ?: 0
+
+                            val result = income - outcome
+
+                            if (result < 0){
+                                Text(text = result.toString(), color = Color.Red)
+                            }else{
+                                Text(text = result.toString(), color = Color.Blue)
+                            }
+                        }
 
                         Box(
                             modifier = Modifier.fillMaxSize(),
