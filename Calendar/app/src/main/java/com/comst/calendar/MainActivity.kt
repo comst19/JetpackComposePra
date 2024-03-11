@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -208,9 +209,42 @@ fun CalendarLazeList() {
     }
 
     if (isScrolling.value){
-        LazyRow(modifier = Modifier.fillMaxSize().height(60.dp)){
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp))
+        {
             items(spendingData.size){
-                
+
+                val day = it + 1
+
+                Box(
+                    modifier = Modifier
+                        .width(55.dp)
+                        .height(60.dp)
+                        .border(1.dp, Color.Gray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(20.dp)
+                                .background(Color(0xFF89CFF0))
+                        )
+
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = day.toString(), fontSize = 14.sp)
+
+                        }
+                    }
+                }
             }
         }
     }else{
