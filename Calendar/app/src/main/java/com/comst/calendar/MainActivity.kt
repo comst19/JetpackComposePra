@@ -196,25 +196,31 @@ fun CalendarDayList() {
 
 @Composable
 fun CalendarLazeList() {
-    Log.d("spendingData", "$spendingData")
 
     val lazyColumnState = rememberLazyListState()
+    val lazyRowState = rememberLazyListState()
     val isScrolling = remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit){
-        snapshotFlow { lazyColumnState.isScrollInProgress }.collect{
+    LaunchedEffect(Unit) {
+        snapshotFlow { lazyColumnState.isScrollInProgress }.collect {
             isScrolling.value = it
             Log.d("isScrolling", "${isScrolling.value}")
         }
     }
 
-    if (isScrolling.value){
+    LaunchedEffect(lazyColumnState.firstVisibleItemIndex){
+        lazyRowState.scrollToItem(lazyColumnState.firstVisibleItemIndex)
+    }
+
+    if (isScrolling.value) {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp))
+                .height(60.dp),
+            state = lazyRowState
+        )
         {
-            items(spendingData.size){
+            items(spendingData.size) {
 
                 val day = it + 1
 
@@ -247,14 +253,15 @@ fun CalendarLazeList() {
                 }
             }
         }
-    }else{
+    } else {
         CalendarDayNames()
         CalendarDayList()
     }
 
     LazyColumn(
         modifier = Modifier.padding(20.dp),
-        state = lazyColumnState)
+        state = lazyColumnState
+    )
     {
         spendingData.keys.forEach { day ->
 
