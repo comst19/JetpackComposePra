@@ -1,6 +1,7 @@
 package com.comst.calendar
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,9 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.comst.calendar.CalendarData.spendingData
 import com.comst.calendar.ui.theme.CalendarTheme
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
@@ -44,6 +48,7 @@ class MainActivity : ComponentActivity() {
                     CalendarHeader()
                     CalendarDayNames()
                     CalendarDayList()
+                    CalendarLazeList()
                 }
             }
         }
@@ -117,7 +122,7 @@ fun CalendarDayList() {
 
     // 달력 계싼 공식 필요값
     val thisMonthDayMax = date.getActualMaximum(Calendar.DAY_OF_MONTH)
-    val thisMonthFirstDay = date.get(Calendar.DAY_OF_WEEK) -1
+    val thisMonthFirstDay = date.get(Calendar.DAY_OF_WEEK) - 1
     val thisMonthWeeksCount = (thisMonthDayMax + thisMonthFirstDay + 6) / 7
 
     Column(modifier = Modifier.padding(top = 20.dp)) {
@@ -136,13 +141,21 @@ fun CalendarDayList() {
                                 .border(1.dp, Color.Gray),
                             contentAlignment = Alignment.Center
                         ) {
-                            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(20.dp)
-                                    .background(Color(0xFF89CFF0)))
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Top
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(20.dp)
+                                        .background(Color(0xFF89CFF0))
+                                )
 
-                                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     Text(text = resultDay.toString(), fontSize = 14.sp)
 
                                 }
@@ -157,13 +170,49 @@ fun CalendarDayList() {
                                 .border(1.dp, Color.Gray),
                             contentAlignment = Alignment.Center
                         ) {
-                            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(20.dp)
-                                    .background(Color(0xFF89CFF0)))
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Top
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(20.dp)
+                                        .background(Color(0xFF89CFF0))
+                                )
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CalendarLazeList() {
+    Log.d("spendingData", "$spendingData")
+
+    LazyColumn(modifier = Modifier.padding(20.dp)) {
+        spendingData.keys.forEach { day ->
+
+            item {
+                Text(
+                    text = "2023년 12월 ${day}일",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+                )
+
+                spendingData[day]?.forEach { data ->
+                    Row(modifier = Modifier.padding(start = 5.dp, top = 3.dp)) {
+                        Text(text = data.type, fontSize = 12.sp)
+                        Text(
+                            text = "${data.price}",
+                            fontSize = 12.sp,
+                            color = if (data.type == "수입") Color.Red else Color.Blue,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
                     }
                 }
             }
