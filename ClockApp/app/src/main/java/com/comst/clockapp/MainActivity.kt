@@ -80,12 +80,20 @@ fun Clock() {
 
         Button(
             onClick = {
-                val number = inputText.toInt()
-                if (number in 1..60){
 
-                }else{
-                    Toast.makeText(context, "1~60 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                try {
+                    val number = inputText.toInt()
+                    if (number in 1..60){
+
+                    }else{
+                        Toast.makeText(context, "1~60 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    }
+                }catch (e : Exception){
+                    Toast.makeText(context, "숫자를 제대로 입력해주세요", Toast.LENGTH_SHORT).show()
+
                 }
+
+
             },
             modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(Color.Blue)
         ) {
