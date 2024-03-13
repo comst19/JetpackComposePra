@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,13 +29,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.comst.clockapp.ui.theme.ClockAppTheme
+import kotlinx.coroutines.delay
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -59,6 +63,16 @@ fun Clock() {
     val context = LocalContext.current
     var inputText by remember {
         mutableStateOf("")
+    }
+    var progress by remember {
+        mutableStateOf(0)
+    }
+
+    LaunchedEffect(progress){
+        if (progress > 0){
+            delay(1000)
+            progress -= 1
+        }
     }
 
     Column(
@@ -88,7 +102,7 @@ fun Clock() {
                 try {
                     val number = inputText.toInt()
                     if (number in 1..60){
-
+                        progress = number
                     }else{
                         Toast.makeText(context, "1~60 사이의 값을 입력해주세요.", Toast.LENGTH_SHORT).show()
                     }
@@ -138,6 +152,17 @@ fun Clock() {
                     strokeWidth = if(second % 5 == 0) 3.dp.toPx() else 1.dp.toPx()
                 )
             }
+
+            val sweepAngle = (progress.toFloat() / 60f) * 360f
+            drawArc(
+                color = Color.Red,
+                startAngle = -90f,
+                sweepAngle = sweepAngle,
+                useCenter = true,
+                topLeft = Offset(center.x - radius, center.y - radius),
+                size = Size(radius*2, radius*2),
+                style = Fill
+            )
         }
 
 
