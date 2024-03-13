@@ -116,10 +116,11 @@ fun Clock() {
             for (second in 0 until 60){
 
                 // 시계가 360도, 60초 동안 한바퀴, 1초에 6 -> 6 * 60 = 360
-                val angle = Math.toRadians(second * 6.0)
+                val angle = Math.toRadians(second * 6.0 - 90)
 
                 // 원에서 조금 떨어진
-                val startRadius = radius - 10.dp.toPx()
+                //val startRadius = radius - 10.dp.toPx()
+                val startRadius = if(second % 5 == 0) radius - 20.dp.toPx() else radius - 10.dp.toPx()
 
                 // 원에서 많이 떨어지게
                 val endRadius = radius
@@ -134,7 +135,7 @@ fun Clock() {
                     Color.Black,
                     start = Offset(startX, startY),
                     end = Offset(endX, endY),
-                    strokeWidth = 1.dp.toPx()
+                    strokeWidth = if(second % 5 == 0) 3.dp.toPx() else 1.dp.toPx()
                 )
             }
         }
