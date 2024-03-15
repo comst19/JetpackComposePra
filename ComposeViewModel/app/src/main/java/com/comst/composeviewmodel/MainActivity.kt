@@ -24,7 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,6 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.comst.composeviewmodel.ui.theme.ComposeViewModelTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -53,37 +55,60 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// 단계 2 : ViewModel을 상속받은 ToDoViewModel 만들기
-// 첫 단계에서는 내용을 비워두고 시작
 class ToDoViewModel : ViewModel(){
-    val text  = mutableStateOf("")
-    val toDoList = mutableStateListOf<ToDoData>()
+//    val text  = mutableStateOf("")
+    private val _text = MutableLiveData("")
+    val text : LiveData<String> = _text
+    val setText: (String) -> Unit = {
+        _text.value = it
+    }
+
+    // 모든 연산에서 List를 새로 만들어 라이브 데이터로 전달해야 한다!!.
+//    val toDoList = mutableStateListOf<ToDoData>()
+    private val _rawToDoList = mutableListOf<ToDoData>()
+    private val _toDoList = MutableLiveData<List<ToDoData>>()
+    val toDoList : LiveData<List<ToDoData>> = _toDoList
+
+    // mutableStateListOf - 추가, 삭제, 대입 -> UI 가 갱신이된다. 각 항목의 필드가 바뀌었을 때 -> 갱신이 안되는 문제
+    // LiveData<List<X>>.observeAsState() - List가 통채로 다른 List로 바뀌었을 때만 State가 갱신된다
 
     val onSubmit: (String) -> Unit = {
-        val key = (toDoList.lastOrNull()?.key ?: 0) + 1
-        toDoList.add(ToDoData(key, it))
-        text.value = ""
+        val key = (_rawToDoList.lastOrNull()?.key ?: 0) + 1
+        _rawToDoList.add(ToDoData(key, it))
+        //_toDoList.value = ArrayList(_rawToDoList)
+        _toDoList.value = _rawToDoList.toMutableList()
+//        _toDoList.value = mutableListOf<ToDoData>().also { list ->
+//            list.addAll(_rawToDoList)
+//            // sallow copy 조심 -> 객체 아닐 때
+//        }
+        _text.value = ""
     }
 
     val onEdit: (Int, String) -> Unit = {key, newText ->
-        val i = toDoList.indexOfFirst{ it.key == key}
-        toDoList[i] = toDoList[i].copy(text = newText)
+        val i = _rawToDoList.indexOfFirst{ it.key == key}
+        _rawToDoList[i] = _rawToDoList[i].copy(text = newText)
+//        _toDoList.value = ArrayList(_rawToDoList)
+        _toDoList.value = _rawToDoList.toMutableList()
+
     }
 
     val onToggle : (Int, Boolean) -> Unit = { key, checked ->
-        val i = toDoList.indexOfFirst{it.key == key}
-        toDoList[i] = toDoList[i].copy(done = checked)
+        val i = _rawToDoList.indexOfFirst{it.key == key}
+        _rawToDoList[i] = _rawToDoList[i].copy(done = checked)
+//        _toDoList.value = ArrayList(_rawToDoList)
+        _toDoList.value = _rawToDoList.toMutableList()
+
     }
 
     val onDelete: (Int) -> Unit = {key ->
-        val i = toDoList.indexOfFirst {it.key == key}
-        toDoList.removeAt(i)
+        val i = _rawToDoList.indexOfFirst {it.key == key}
+        _rawToDoList.removeAt(i)
+//        _toDoList.value = ArrayList(_rawToDoList)
+        _toDoList.value = _rawToDoList.toMutableList()
+
     }
 }
 
-// 단계 3 : TopLevel의 파라미터로 ToDoViewModel 타입의 viewModel을 전달한다. 기본 값은 viewModel로 설정하자
-// 에러가 발생하면 아래의 import 문을 추가하자
-// 'import androidx.lifecycle.viewmodel.compose.viewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopLevel(viewModel : ToDoViewModel = viewModel()){
@@ -128,15 +153,14 @@ fun TopLevel(viewModel : ToDoViewModel = viewModel()){
             .fillMaxSize()
             .padding(paddingValues)) {
             ToDoInput(
-                text = viewModel.text.value,
-                onTextChange = {
-                    viewModel.text.value = it
-                },
+                text = viewModel.text.observeAsState("").value,
+                onTextChange = viewModel.setText,
                 onSubmit = viewModel.onSubmit
             )
+            val items = viewModel.toDoList.observeAsState(emptyList()).value
             LazyColumn(){
                 items(
-                    items = viewModel.toDoList,
+                    items = items,
                     key = { it.key }
                 ) { toDoData ->
                     ToDo(
