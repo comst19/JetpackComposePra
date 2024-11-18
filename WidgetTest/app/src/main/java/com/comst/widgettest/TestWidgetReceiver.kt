@@ -5,5 +5,5 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 
 class TestWidgetReceiver: GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget
-        get() = TestWidget()
+        get() = TestWidget
 }
