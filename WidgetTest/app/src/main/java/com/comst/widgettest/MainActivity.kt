@@ -1,6 +1,7 @@
 package com.comst.widgettest
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val count = intent.getIntExtra("count", 0)
+        Toast.makeText(this, "Count: $count", Toast.LENGTH_LONG).show()
         setContent {
             WidgetTestTheme {
                 setContent {
@@ -33,6 +36,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

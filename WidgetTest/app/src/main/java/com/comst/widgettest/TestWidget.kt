@@ -1,6 +1,9 @@
 package com.comst.widgettest
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -14,6 +17,7 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.components.TitleBar
 import androidx.glance.appwidget.provideContent
@@ -82,6 +86,16 @@ object TestWidget : GlanceAppWidget() {
                 Button(
                     text = "go Main",
                     onClick = actionStartActivity<MainActivity>()
+                )
+
+                Button(
+                    text = "go Main - 값 전달",
+                    onClick = actionStartActivity(
+                        Intent(context, MainActivity::class.java).apply {
+                            action = Intent.ACTION_VIEW
+                            putExtra("count", count)
+                        }
+                    )
                 )
             }
         }
